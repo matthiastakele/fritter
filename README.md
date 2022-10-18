@@ -313,3 +313,113 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
+
+### Like
+
+#### `POST /api/freets/:freetId?/like` - Like a freet
+
+**Body**
+
+- `userId` _{string}_ - The user's id
+- `freetId` _{string}_ - The freet's id
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if there is a user already logged in
+- `404' if the freetId is not valid
+
+#### `DELETE /api/freets/:freetId?/like` - Unlike a freet
+
+**Body**
+
+- `userId` _{string}_ - The user's id
+- `freetId` _{string}_ - The freet's id
+
+**Returns**
+
+- A success message
+
+**Throws**
+
+- `403` if there is a user already logged in
+- `404' if the freetId is not valid
+
+#### `GET /api/freets/:freetId?/numOfLikes` - Get likes for a freet
+
+**Body**
+
+- `freetId` _{string}_ - The freet's id
+
+**Returns**
+
+- List of Likes for a Freet
+
+**Throws**
+
+- `403` if there is a user already logged in
+- `404' if the freetId is not valid
+
+#### `GET /api/freets/users/:userId?/numOfLikes` - Get likes for a user
+
+**Body**
+
+- `freetId` _{string}_ - The freet's id
+
+**Returns**
+
+- List of Likes for a Freet
+
+**Throws**
+
+- `403` if there is a user already logged in
+- `404' if the freetId is not valid
+
+### Comment
+#### `POST /api/freets/:freetId?/comment` - Add comment to a freet
+#### `PUT /api/freets/:freetId?/comment` - Edit a comment from a freet
+#### `DELETE /api/freets/:freetId?/comment` - Delete a comment from a freet
+#### `GET /api/freets/:freetId?/allComments` - Get all comments from a freet
+#### `GET /api/users/:userId?/allComments` - Get all comments from a user
+
+### Album
+#### `POST /api/albums/album` - Create an album
+#### `DELETE /api/albums/album` - Delete an album
+#### `GET /api/users/:userId?/albums` - Get all albums of a user
+#### `GET /api/users/:userId?/albums/freets` - Get all freets in an album of a user
+#### `POST /api/albums/:albumId?/freet` - Add freet to an album
+#### `POST /api/albums/:albumId?/freet` - Delete freet to an album
+
+### Circle
+#### `POST /api/circles/circle` - Create a circle
+#### `DELETE /api/circles/circle` - Delete a circle
+#### `GET /api/users/:userId?/circles/` - Get all circles of a user
+#### `POST /api/circles/:circleId?/user` - Add user to a circle
+#### `DELETE /api/circles/:circleId?/user` - Delete user to a circle
+
+### Filter
+#### `PUT /api/filters/checkFilter` - Check a filter
+#### `PUT /api/filters/UncheckFilter` - Uncheck a filter
+
+### Label
+#### `POST /api/users/:userId/label` - Create a label
+#### `DELETE /api/users/:userId/label` - Delete a label
+
+### Who To Follow
+#### `POST /api/users/:userId/whoToFollow/accept` - accept a user to follow
+#### `POST /api/users/:userId/whoToFollow/decline` - decline a user to follow
+#### `POST /api/users/:userId/whoToFollow/label` - add a label for who to follow consideration
+#### `DELETE /api/users/:userId/whoToFollow/label` - delete a label for who to follow consideration
+
+### Time Limit
+#### `PUT /api/users/:userId/timeLimit/time` - change time limit
+
+
+
+
+
+
+
