@@ -34,3 +34,29 @@ function deleteFreet(fields) {
     .then(showResponse)
     .catch(showResponse);
 }
+
+// Likes
+function likeFreet(fields) {
+  fetch(`/api/freets/${fields.freetId}/like`, {method: 'POST', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
+    .then(showResponse)
+    .catch(showResponse);
+}
+
+function unlikeFreet(fields) {
+  fetch(`/api/freets/${fields.freetId}/like`, {method: 'DELETE', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
+    .then(showResponse)
+    .catch(showResponse);
+}
+
+function getLikesByFreetId(fields) {
+  fetch(`/api/freets/${fields.freetId}/numOfLikes`)
+    .then(showResponse)
+    .catch(showResponse);
+}
+
+function getLikesByUserId(fields) {
+  fetch(`/api/freets/users/${fields.userId}/numOfLikes`)
+    .then(showResponse)
+    .catch(showResponse);
+}
+

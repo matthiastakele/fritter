@@ -1,57 +1,57 @@
 import type {Types, PopulatedDoc, Document} from 'mongoose';
 import {Schema, model} from 'mongoose';
 import type {User} from '../user/model';
-import type {Like} from '../like/model';
+import type {Freet} from '../freet/model'
 
 /**
- * This file defines the properties stored in a Freet
+ * This file defines the properties stored in a Circle
  * DO NOT implement operations here ---> use collection file
  */
 
 // Type definition for Freet on the backend
-export type Freet = {
+export type Circle = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   authorId: Types.ObjectId;
-  dateCreated: Date;
-  content: string;
-  dateModified: Date;
+  name: String;
+  users: Set<Types.ObjectId>;
+  freets: Set<Types.ObjectId>;
 };
 
-export type PopulatedFreet = {
+export type PopulatedCircle = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   authorId: User;
-  dateCreated: Date;
-  content: string;
-  dateModified: Date;
+  name: String;
+  users: Set<User>;
+  freets: Set<Freet>;
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
 // Freets stored in this table will have these fields, with the
 // type given by the type property, inside MongoDB
-const FreetSchema = new Schema<Freet>({
-  // The author userId
+const CircleSchema = new Schema<Circle>({
+  // The author userId of a circle
   authorId: {
     // Use Types.ObjectId outside of the schema
     type: Schema.Types.ObjectId,
     required: true,
     ref: 'User'
   },
-  // The date the freet was created
-  dateCreated: {
-    type: Date,
-    required: true
-  },
-  // The content of the freet
-  content: {
+  // The name of the circle
+  name: {
     type: String,
     required: true
   },
-  // The date the freet was modified
-  dateModified: {
-    type: Date,
+  // The users that make up a circle
+  users: {
+    type: Set<User>,
     required: true
-  }
+  },
+  // The freets that make up a circle
+  freets: {
+    type: Set<Freet>,
+    required: true
+  },
 });
 
-const FreetModel = model<Freet>('Freet', FreetSchema);
-export default FreetModel;
+const CircleModel = model<Circle>('Circle', CircleSchema);
+export default CircleModel;
