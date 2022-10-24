@@ -101,6 +101,7 @@ const isUsernameNotAlreadyInUse = async (req: Request, res: Response, next: Next
   });
 };
 
+
 /**
  * Checks if the user is logged in, that is, whether the userId is set in session
  */

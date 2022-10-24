@@ -25,10 +25,10 @@ class CircleCollection {
    */
   static async addOne(userId: Types.ObjectId | string, name: string): Promise<HydratedDocument<Circle>> {
     const circle = new CircleModel({
-      userId,
+      userId: userId,
       name: name,
-      users: new Set<User>(),
-      freets: new Set<Freet>()
+      users: new Array<Types.ObjectId>(),
+      freets: new Array<Types.ObjectId>()
     });
     await circle.save(); // Saves freet to MongoDB
     return circle.populate('userId');
@@ -51,16 +51,16 @@ class CircleCollection {
    * @param {string} CircleId - The id of the circle to find
    * @return {Promise<HydratedDocument<Freet>> | Promise<null> } - The circle with the given circleId, if any
    */
-  static async findOne(circleId: Types.ObjectId | string): Promise<HydratedDocument<Freet>> {
+  static async findOne(circleId: Types.ObjectId | string): Promise<HydratedDocument<Circle>> {
     return CircleModel.findOne({_id: circleId}).populate('userId');
   }
 
   /**
    * Get all the circles in the database
    *
-   * @return {Promise<HydratedDocument<Freet>[]>} - An array of all of the circles
+   * @return {Promise<HydratedDocument<Circle>[]>} - An array of all of the circles
    */
-  static async findAll(): Promise<Array<HydratedDocument<Freet>>> {
+  static async findAll(): Promise<Array<HydratedDocument<Circle>>> {
     // Retrieves circles
     return CircleModel.find({}).populate('userId');
   }
@@ -69,12 +69,32 @@ class CircleCollection {
    * Get all the circles by given author
    *
    * @param {string} username - The username of author of the freets
-   * @return {Promise<HydratedDocument<Freet>[]>} - An array of all of the freets
+   * @return {Promise<HydratedDocument<Circle>[]>} - An array of all of the freets
    */
-  static async findAllByUsername(username: string): Promise<Array<HydratedDocument<Freet>>> {
+  static async findAllByUsername(username: string): Promise<Array<HydratedDocument<Circle>>> {
     const author = await UserCollection.findOneByUsername(username);
     return CircleModel.find({userId: author._id}).populate('userId');
   }
+
+    /**
+   * Get all the circles by given author
+   *
+   * @param {string} username - The username of author of the freets
+   * @return {Promise<HydratedDocument<Circle>[]>} - An array of all of the freets
+   */
+     static async findAllByUserId(userId: Types.ObjectId | string): Promise<Array<HydratedDocument<Circle>>> {
+      return CircleModel.find({userId: userId}).populate('userId');
+    }
+
+  /**
+   * Get all the users by circle id
+   * @param {string} circleId - The id of the circle
+   * @return {Promise<HydratedDocument<Circle>[]>} - An array of all of the freets
+   */
+     static async findAllUsersByCircleId(circleId: Types.ObjectId | string): Promise<Array<Types.ObjectId | string>> {
+      const circle = await CircleModel.findOne({circleId: circleId});
+      return circle.users;
+    }
 
   /**
    * Delete all the circles by the given author
@@ -82,33 +102,40 @@ class CircleCollection {
    * @param {string} userId - The id of author of circle
    */
    static async deleteMany(userId: Types.ObjectId | string): Promise<void> {
-    await CircleModel.deleteMany({userId});
+    await CircleModel.deleteMany({userId: userId});
   }
 
   /**
-   * Add a new viewer to a circle
+   * Add a new user to a circle
    *
    * @param {string} circleId - The id of the circle to be updated
-   * @param {string} viewerId - The new content of the freet
+   * @param {string} username - The new content of the freet
    * @return {Promise<HydratedDocument<Circle>>} - The newly updated circle
    */
-  static async addViewer(circleId: Types.ObjectId | string, viewerId: string): Promise<HydratedDocument<Freet>> {
+  static async addUser(circleId: Types.ObjectId | string, username: string): Promise<HydratedDocument<Circle>> {
     const circle = await CircleModel.findOne({_id: circleId});
-    circle.users.add(new mongoose.Types.ObjectId(viewerId));
+    var mongoose = require('mongoose');
+    const user = await UserCollection.findOneByUsername(username);
+    circle.users.push(user._id);
     await circle.save();
     return circle.populate('userId');
   }
 
   /**
-   * Delete a viewer from a circle
+   * Delete a user from a circle
    *
    * @param {string} circleId - The id of the circle to be updated
-   * @param {string} viewerId - The new content of the freet
+   * @param {string} userId - The new content of the freet
    * @return {Promise<HydratedDocument<Circle>>} - The newly updated circle
    */
-   static async deleteViewer(circleId: Types.ObjectId | string, viewerId: string): Promise<HydratedDocument<Freet>> {
+   static async deleteUser(circleId: Types.ObjectId | string, username: string): Promise<HydratedDocument<Circle>> {
     const circle = await CircleModel.findOne({_id: circleId});
-    circle.users.delete(new mongoose.Types.ObjectId(viewerId));
+    var mongoose = require('mongoose');
+    const user = await UserCollection.findOneByUsername(username);
+    const index = circle.users.indexOf(user._id);
+    if (index !== -1) {
+      circle.users.splice(index, 1);
+    }
     await circle.save();
     return circle.populate('userId');
   }
@@ -120,9 +147,10 @@ class CircleCollection {
    * @param {string} freetId - The id of the freet
    * @return {Promise<HydratedDocument<Circle>>} - The newly updated circle
    */
-   static async addFreet(circleId: Types.ObjectId | string, freetId: string): Promise<HydratedDocument<Freet>> {
+   static async addFreet(circleId: Types.ObjectId | string, freetId: Types.ObjectId | string): Promise<HydratedDocument<Circle>> {
     const circle = await CircleModel.findOne({_id: circleId});
-    circle.freets.add(new mongoose.Types.ObjectId(freetId));
+    var mongoose = require('mongoose');
+    circle.freets.push(mongoose.Types.ObjectId(freetId));
     await circle.save();
     return circle.populate('userId');
   }
@@ -134,11 +162,16 @@ class CircleCollection {
    * @param {string} viewerId - The id of the freet
    * @return {Promise<HydratedDocument<Circle>>} - The newly updated circle
    */
-   static async deleteFreet(circleId: Types.ObjectId | string, freetId: string): Promise<HydratedDocument<Freet>> {
+   static async deleteFreet(circleId: Types.ObjectId | string, freetId: string): Promise<HydratedDocument<Circle>> {
     const circle = await CircleModel.findOne({_id: circleId});
-    circle.freets.delete(new mongoose.Types.ObjectId(freetId));
+    var mongoose = require('mongoose');
+    const index = circle.users.indexOf(mongoose.Types.ObjectId(freetId));
+    if (index !== -1) {
+      circle.users.splice(index, 1);
+    }
     await circle.save();
     return circle.populate('userId');
+    
   }
 
 }

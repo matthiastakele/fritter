@@ -1,6 +1,6 @@
 import type {NextFunction, Request, Response} from 'express';
 import express from 'express';
-import LikeCollection from './collection';
+import FollowCollection from './collection';
 import * as userValidator from '../user/middleware';
 import * as freetValidator from '../freet/middleware';
 // import * as util from './util';
@@ -8,9 +8,9 @@ import * as freetValidator from '../freet/middleware';
 const router = express.Router();
 
 /**
- * Like a freet.
+ * Follow a user
  *
- * @name POST /api/likes
+ * @name POST /api/follows
  *
  * @param {string} freetId - The id of a freet
  * @return {string} - A success message
@@ -21,20 +21,19 @@ const router = express.Router();
 router.post(
   '/',
   [
-    userValidator.isUserLoggedIn,
-    freetValidator.isFreetExists
+    userValidator.isUserLoggedIn
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? '';
-    await LikeCollection.addOne(userId, req.body.freetId);
+    await FollowCollection.addOne(userId, req.body.userId);
     res.status(200).json({
-      message: 'You liked the freet successfully.',
+      message: 'You followed the user successfully.',
     });
   }
 );
 
 /**
- * Unlike a freet.
+ * Unfollow a user
  *
  * @name DELETE /api/likes
  *
@@ -45,22 +44,21 @@ router.post(
  * @throws {404} - If the freetId is not valid
  */
  router.delete(
-  '/:freetId?',
+  '/:userId?',
   [
-    userValidator.isUserLoggedIn,
-    freetValidator.isFreetExists
+    userValidator.isUserLoggedIn
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? '';
-    await LikeCollection.deleteOne(userId, req.params.freetId);
+    await FollowCollection.deleteOne(userId, req.params.userId);
     res.status(200).json({
-      message: 'You unliked the freet successfully.',
+      message: 'You unfollowed the user successfully.',
     });
   }
 );
 
 /**
- * Get likes for a freet.
+ * Get followers
  *
  * @name GET /api/likes/freets/:freetId
  *
@@ -71,22 +69,23 @@ router.post(
  *
  */
  router.get(
-  '/freets/:freetId?',
+  '/:userId?/followers',
   [
-    freetValidator.isFreetExists
+    
   ],
   async (req: Request, res: Response) => {
-    const likes = await LikeCollection.findAllByFreetId(req.params.freetId);
+    const userId = (req.session.userId as string) ?? '';
+    const followers = await FollowCollection.findAllFollowers(userId);
     // const count = likes.length;
     res.status(200).json({
-      likes
+      followers
     });
     
   }
 );
 
 /**
- * Get all likes for a user
+ * Get following
  *
  * @name GET /api/likes/users/:userId
  *
@@ -96,17 +95,18 @@ router.post(
  *
  */
  router.get(
-  '/users/:userId?',
+  '/:userId?/following',
   [
   ],
   async (req: Request, res: Response) => {
-    const likes = await LikeCollection.findAllByUserId(req.params.userId);
+    const userId = (req.session.userId as string) ?? '';
+    const following = await FollowCollection.findAllFollowers(userId);
     //const count = likes.length;
     res.status(200).json({
-      likes
+      following
     });
     
   }
 );
 
-export {router as likeRouter};
+export {router as followRouter};

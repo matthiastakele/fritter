@@ -23,12 +23,12 @@ class LikeCollection {
    * @param {string} freetId - The id of a freet
    * @return {Promise<HydratedDocument<Like>>} - The newly created Like
    */
-  static async addLike(userId: Types.ObjectId | string, freetId: Types.ObjectId | string): Promise<HydratedDocument<Like>> {
+  static async addOne(userId: Types.ObjectId | string, freetId: Types.ObjectId | string): Promise<HydratedDocument<Like>> {
     const like = new LikeModel({
       userId,
-      freetId
+      freetId,
     });
-    const already_liked = await LikeCollection.checkIfUserLikedFreet(userId, freetId);
+    const already_liked = await LikeCollection.findIfUserLikedFreet(userId, freetId);
     if(!already_liked){
       await like.save(); // Saves like to MongoDB
     }
@@ -41,7 +41,7 @@ class LikeCollection {
    * @param {string} freetId - The id of a freet
    * @return {Promise<Boolean>} - true if the Like has been deleted, false otherwise
    */
-   static async deleteLike(userId: Types.ObjectId | string, freetId: Types.ObjectId | string): Promise<Boolean> {
+   static async deleteOne(userId: Types.ObjectId | string, freetId: Types.ObjectId | string): Promise<Boolean> {
     const like = new LikeModel({
       userId,
       freetId
@@ -56,7 +56,7 @@ class LikeCollection {
    * @param {string} userId - The id of the user to find
    * @return {Promise<HydratedDocument<Like>>} - The Likes with the given userId, if any
    */
- static async getLikesByUserId(userId: Types.ObjectId | string): Promise<Array<HydratedDocument<Like>>> {
+ static async findAllByUserId(userId: Types.ObjectId | string): Promise<Array<HydratedDocument<Like>>> {
   return LikeModel.find({userId: userId});
 }
 
@@ -66,7 +66,7 @@ class LikeCollection {
    * @param {string} freetId - The id of the freet to find
    * @return {Promise<HydratedDocument<Like>>} - The Likes with the given freetId, if any
    */
- static async getLikesByFreetId(freetId: Types.ObjectId | string): Promise<Array<HydratedDocument<Like>>> {
+ static async findAllByFreetId(freetId: Types.ObjectId | string): Promise<Array<HydratedDocument<Like>>> {
   return LikeModel.find({freetId: freetId});
 }
 
@@ -77,9 +77,9 @@ class LikeCollection {
    * @param {string} freetId - The id of the freet to find
    * @return {Promise<HydratedDocument<Like>>} - The Like with the given freetId, if any
    */
- static async checkIfUserLikedFreet(userId: Types.ObjectId | string, freetId: Types.ObjectId | string): Promise<Boolean> {
-  const check = await LikeModel.find({userId: userId, freetId: freetId});
-  return check.length != 0;
+ static async findIfUserLikedFreet(userId: Types.ObjectId | string, freetId: Types.ObjectId | string): Promise<Boolean> {
+  const like = await LikeModel.find({userId: userId, freetId: freetId});
+  return like.length != 0;
 }
 }
 

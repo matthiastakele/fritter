@@ -28,21 +28,36 @@ function showResponse(response) {
 
 // Map form (by id) to the function that should be called on submit
 const formsAndHandlers = {
+  // user
   'create-user': createUser,
   'delete-user': deleteUser,
   'change-username': changeUsername,
   'change-password': changePassword,
   'sign-in': signIn,
   'sign-out': signOut,
+  // freet
   'view-all-freets': viewAllFreets,
   'view-freets-by-author': viewFreetsByAuthor,
   'create-freet': createFreet,
   'edit-freet': editFreet,
   'delete-freet': deleteFreet,
+  // follow
+  'add-follow': addFollow,
+  'delete-follow': deleteFollow,
+  'view-all-followers': viewAllFollowers,
+  'view-all-following': viewAllFollowing,
+  // like
   'like-freet': likeFreet,
   'unlike-freet': unlikeFreet,
-  'get-likes-by-freet-id': getLikesByFreetId,
-  'get-likes-by-user-id': getLikesByUserId
+  'view-likes-of-freet': viewLikesOfFreet,
+  'view-likes-by-user': viewLikesByUser,
+  // circle
+  'add-circle': addCircle,
+  'delete-circle': deleteCircle,
+  'add-user-to-circle': addUserToCircle,
+  'delete-user-from-circle': deleteUserFromCircle,
+  'view-all-users-in-circle': viewAllUsersInCircle,
+  'view-all-circles-of-user': viewAllCirclesOfUser
 };
 
 // Attach handlers to forms
