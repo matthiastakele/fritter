@@ -35,13 +35,12 @@ router.post(
 /**
  * Unfollow a user
  *
- * @name DELETE /api/likes
+ * @name DELETE /api/follows/:userId
  *
- * @param {string} freetId - The id of a freet
+ * @param {string} userId - The id of a user
  * @return {string} - A success message
- * @throws {403} - If the user is not logged in or is not the author of
- *                 the freet
- * @throws {404} - If the freetId is not valid
+ * @throws {403} - If the user is not logged in
+ *    
  */
  router.delete(
   '/:userId?',
@@ -62,21 +61,18 @@ router.post(
  *
  * @name GET /api/likes/freets/:freetId
  *
- * @param {string} freetId - The id of a freet
- * @return {string} - The number of likes
+ * @param {string} userId - The id of a user
+ * @return {Array<Users>} - Followers of user
  * @throws {403} - If the user is not logged in
- * @throws {404} - If the freetId is not valid
  *
  */
  router.get(
   '/:userId?/followers',
   [
-    
+    userValidator.isUserLoggedIn
   ],
   async (req: Request, res: Response) => {
-    const userId = (req.session.userId as string) ?? '';
-    const followers = await FollowCollection.findAllFollowers(userId);
-    // const count = likes.length;
+    const followers = await FollowCollection.findAllFollowers(req.params.userId);
     res.status(200).json({
       followers
     });
@@ -89,9 +85,9 @@ router.post(
  *
  * @name GET /api/likes/users/:userId
  *
- * @return {string} - The number of likes
+ * @param {string} userId - The id of a user
+ * @return {Array<Users>} - Users following
  * @throws {403} - If the user is not logged in
- * @throws {404} - If the freetId is not valid
  *
  */
  router.get(
@@ -99,9 +95,7 @@ router.post(
   [
   ],
   async (req: Request, res: Response) => {
-    const userId = (req.session.userId as string) ?? '';
-    const following = await FollowCollection.findAllFollowers(userId);
-    //const count = likes.length;
+    const following = await FollowCollection.findAllFollowing(req.params.userId);
     res.status(200).json({
       following
     });

@@ -42,10 +42,6 @@ class LikeCollection {
    * @return {Promise<Boolean>} - true if the Like has been deleted, false otherwise
    */
    static async deleteOne(userId: Types.ObjectId | string, freetId: Types.ObjectId | string): Promise<Boolean> {
-    const like = new LikeModel({
-      userId,
-      freetId
-    });
     const freet = await LikeModel.findOneAndDelete({userId, freetId});
     return freet !== null;
   }
@@ -78,8 +74,8 @@ class LikeCollection {
    * @return {Promise<HydratedDocument<Like>>} - The Like with the given freetId, if any
    */
  static async findIfUserLikedFreet(userId: Types.ObjectId | string, freetId: Types.ObjectId | string): Promise<Boolean> {
-  const like = await LikeModel.find({userId: userId, freetId: freetId});
-  return like.length != 0;
+  const like = await LikeModel.findOne({userId: userId, freetId: freetId});
+  return like != null;
 }
 }
 

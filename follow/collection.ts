@@ -56,7 +56,7 @@ class FollowCollection {
    * @param {string} follower - The id of the user to find
    * @return {Promise<HydratedDocument<Follow>>} - The Follows with the given follower, if any
    */
- static async findAllFollowers(userId: Types.ObjectId | string): Promise<Array<HydratedDocument<Follow>>> {
+ static async findAllFollowers(userId: Types.ObjectId | string): Promise<Array<HydratedDocument<User>>> {
   return FollowModel.find({followee: userId});
 }
 
@@ -66,7 +66,7 @@ class FollowCollection {
    * @param {string} followee - The id of the freet to find
    * @return {Promise<HydratedDocument<Follow>>} - The Follows with the given followee, if any
    */
- static async findAllFollowing(userId: Types.ObjectId | string): Promise<Array<HydratedDocument<Follow>>> {
+ static async findAllFollowing(userId: Types.ObjectId | string): Promise<Array<HydratedDocument<User>>> {
   return FollowModel.find({follower: userId});
 }
 

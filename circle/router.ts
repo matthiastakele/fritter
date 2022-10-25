@@ -22,6 +22,7 @@ router.post(
   '/',
   [
     userValidator.isUserLoggedIn,
+    circleValidator.doesCircleNameExist
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
@@ -125,6 +126,77 @@ router.delete(
     const users = await CircleCollection.findAllUsersByCircleId(req.params.circleId);
     res.status(200).json({
       users
+    });
+  }
+);
+
+/**
+ * Add a freet to a circle
+ *
+ * @name PUT /api/circles/:circleId?/freets
+ *
+ * @return {string} - A success message
+ * @throws {403} - If the user is not logged in or is not the author of
+ *                 the freet
+ * @throws {404} - If the circleId is not valid
+ */
+ router.put(
+  '/:circleId?/freets',
+  [
+    userValidator.isUserLoggedIn,
+    freetValidator.isFreetExists
+  ],
+  async (req: Request, res: Response) => {
+    await CircleCollection.addFreet(req.params.circleId, req.body.freetId);
+    res.status(200).json({
+      message: `You added freet to the circle successfully.`
+    });
+  }
+);
+
+/**
+ * Delete a freet from a circle
+ *
+ * @name DELETE /api/circles/:circleId/freets/:freetId
+ *
+ * @return {string} - A success message
+ * @throws {403} - If the user is not logged in or is not the author of
+ *                 the freet
+ * @throws {404} - If the circleId is not valid
+ */
+ router.delete(
+  '/:circleId?/freets/:freetId?',
+  [
+    userValidator.isUserLoggedIn,
+    freetValidator.isFreetExists
+  ],
+  async (req: Request, res: Response) => {
+    await CircleCollection.deleteFreet(req.params.circleId, req.params.freetId);
+    res.status(200).json({
+      message: `You deleted freet from the circle successfully.`
+    });
+  }
+);
+
+/**
+ * Get all freets for a circle
+ *
+ * @name GET /api/circles/:circleId/users
+ *
+ * @return {CircleResponse} - A dictionary of users and freets associated with circle
+ * @throws {400} - If userId is not given
+ * @throws {404} - If no user has given userId
+ *
+ */
+ router.get(
+  '/:circleId?/freets',
+  [
+    userValidator.isUserLoggedIn
+  ],
+  async (req: Request, res: Response) => {
+    const freets = await CircleCollection.findAllFreetsByCircleId(req.params.circleId);
+    res.status(200).json({
+      freets
     });
   }
 );

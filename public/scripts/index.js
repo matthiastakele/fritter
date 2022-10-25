@@ -51,13 +51,29 @@ const formsAndHandlers = {
   'unlike-freet': unlikeFreet,
   'view-likes-of-freet': viewLikesOfFreet,
   'view-likes-by-user': viewLikesByUser,
+  // comment
+  'comment-freet': commentFreet,
+  'uncomment-freet': uncommentFreet,
+  'view-comments-of-freet': viewCommentsOfFreet,
+  'view-comments-by-user': viewCommentsByUser,
   // circle
   'add-circle': addCircle,
   'delete-circle': deleteCircle,
   'add-user-to-circle': addUserToCircle,
   'delete-user-from-circle': deleteUserFromCircle,
   'view-all-users-in-circle': viewAllUsersInCircle,
-  'view-all-circles-of-user': viewAllCirclesOfUser
+  'view-all-circles-of-user': viewAllCirclesOfUser,
+  // album
+  'add-album': addAlbum,
+  'delete-album': deleteAlbum,
+  'add-freet-to-album': addFreetToAlbum,
+  'delete-freet-from-album': deleteFreetFromAlbum,
+  'add-circle-to-album': addCircleToAlbum,
+  'delete-circle-from-album': deleteCircleFromAlbum,
+  'view-all-circles-in-album': viewAllCirclesInAlbum,
+  'view-all-freets-in-album': viewAllFreetsInAlbum,
+  'view-all-albums-of-user': viewAllAlbumsOfUser
+  
 };
 
 // Attach handlers to forms

@@ -12,8 +12,10 @@ import * as userValidator from '../user/middleware';
 import {userRouter} from '../user/router';
 import {freetRouter} from '../freet/router';
 import {likeRouter} from '../like/router';
+import {commentRouter} from '../comment/router';
 import {followRouter} from '../follow/router';
 import {circleRouter} from '../circle/router';
+import {albumRouter} from '../album/router';
 
 // Load environmental variables
 dotenv.config({});
@@ -80,8 +82,10 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/api/users', userRouter);
 app.use('/api/freets', freetRouter);
 app.use('/api/likes', likeRouter);
+app.use('/api/comments', commentRouter);
 app.use('/api/follows', followRouter);
 app.use('/api/circles', circleRouter);
+app.use('/api/albums', albumRouter);
 
 // Catch all the other routes and display error message
 app.all('*', (req: Request, res: Response) => {

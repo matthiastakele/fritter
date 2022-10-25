@@ -7,8 +7,11 @@
   <link rel="stylesheet" href="/stylesheets/style.css">
   <script src="/scripts/freet.js"></script>
   <script src="/scripts/user.js"></script>
+  <script src="/scripts/follow.js"></script>
   <script src="/scripts/like.js"></script>
+  <script src="/scripts/comment.js"></script>
   <script src="/scripts/circle.js"></script>
+  <script src="/scripts/album.js"></script>
   <script src="/scripts/index.js"></script>
 </head>
 
@@ -21,6 +24,7 @@
     <section id="operations-container">
       <h2>Operations:</h2>
       <div class="scrollbox">
+        <h2 style="background-color:SeaGreen;text-align:center">User Ops</h1>
         <form id="create-user">
           <h3>Create User</h3>
           <div>
@@ -74,7 +78,7 @@
           <h3>Sign Out</h3>
           <input type="submit" value="Sign out">
         </form>
-
+        <h2 style="background-color:SeaGreen;text-align:center">Freet Ops</h1>
         <form id="view-all-freets">
             <h3>View All Freets</h3>
             <input type="submit" value="View All Freets">
@@ -120,41 +124,7 @@
           <input type="submit" value="Delete Freet">
         </form>
 
-        <form id="like-freet">
-          <h3>Like Freet</h3>
-          <div>
-            <label for="freetId">Freet Id:</label>
-            <input id="freetId" name="freetId">
-          </div>
-          <input type="submit" value="Like Freet">
-        </form>
-
-        <form id="unlike-freet">
-          <h3>Unlike Freet</h3>
-          <div>
-            <label for="freetId">Freet Id:</label>
-            <input id="freetId" name="freetId">
-          </div>
-          <input type="submit" value="Unlike Freet">
-        </form>
-
-        <form id="view-likes-of-freet">
-          <h3>View Likes of Freet</h3>
-          <div>
-            <label for="freetId">Freet Id:</label>
-            <input id="freetId" name="freetId">
-          </div>
-          <input type="submit" value="Get Likes By Freet ID">
-        </form>
-
-        <form id="view-likes-by-user">
-          <h3>View Likes By User</h3>
-          <div>
-            <label for="userId">User Id:</label>
-            <input id="userId" name="userId">
-          </div>
-          <input type="submit" value="View Likes by User">
-        </form>
+        <h2 style="background-color:SeaGreen;text-align:center">Follow Ops</h1>
 
         <form id="add-follow">
           <h3>Follow</h3>
@@ -192,6 +162,87 @@
           <input type="submit" value="View All Following">
         </form>
 
+        <h2 style="background-color:SeaGreen;text-align:center">Like Ops</h1>
+
+          <form id="like-freet">
+            <h3>Like Freet</h3>
+            <div>
+              <label for="freetId">Freet Id:</label>
+              <input id="freetId" name="freetId">
+            </div>
+            <input type="submit" value="Like Freet">
+          </form>
+  
+          <form id="unlike-freet">
+            <h3>Unlike Freet</h3>
+            <div>
+              <label for="freetId">Freet Id:</label>
+              <input id="freetId" name="freetId">
+            </div>
+            <input type="submit" value="Unlike Freet">
+          </form>
+  
+          <form id="view-likes-of-freet">
+            <h3>View Likes of Freet</h3>
+            <div>
+              <label for="freetId">Freet Id:</label>
+              <input id="freetId" name="freetId">
+            </div>
+            <input type="submit" value="View Likes By Freet Id">
+          </form>
+  
+          <form id="view-likes-by-user">
+            <h3>View Likes By User</h3>
+            <div>
+              <label for="userId">User Id:</label>
+              <input id="userId" name="userId">
+            </div>
+            <input type="submit" value="View Likes by User">
+          </form>
+
+          <h2 style="background-color:SeaGreen;text-align:center">Comment Ops</h1>
+
+            <form id="comment-freet">
+              <h3>Comment Freet</h3>
+              <div>
+                <label for="freetId">Freet Id:</label>
+                <input id="freetId" name="freetId">
+              </div>
+              <div>
+                <label for="content">Content:</label>
+                <textarea id="content" name="content"></textarea>
+              </div>
+              <input type="submit" value="Comment Freet">
+            </form>
+    
+            <form id="uncomment-freet">
+              <h3>Uncomment Freet</h3>
+              <div>
+                <label for="commentId">Comment Id:</label>
+                <input id="commentId" name="commentId">
+              </div>
+              <input type="submit" value="Uncomment Freet">
+            </form>
+    
+            <form id="view-comments-of-freet">
+              <h3>View Comments of Freet</h3>
+              <div>
+                <label for="freetId">Freet Id:</label>
+                <input id="freetId" name="freetId">
+              </div>
+              <input type="submit" value="View Comments By Freet Id">
+            </form>
+    
+            <form id="view-comments-by-user">
+              <h3>View Comments By User</h3>
+              <div>
+                <label for="userId">User Id:</label>
+                <input id="userId" name="userId">
+              </div>
+              <input type="submit" value="View Comments by User">
+            </form>
+
+        <h2 style="background-color:SeaGreen;text-align:center">Circle Ops</h1>
         <form id="add-circle">
           <h3>Add Circle</h3>
           <div>
@@ -248,6 +299,101 @@
         <form id="view-all-circles-of-user">
           <h3>View All Circles of User</h3>
           <input type="submit" value="View All Circles of User">
+        </form>
+
+        <h2 style="background-color:SeaGreen;text-align:center">Album Ops</h1>
+
+        <form id="add-album">
+          <h3>Add Album</h3>
+          <div>
+            <label for="name">Album Name:</label>
+            <input id="albumName" name="albumName">
+          </div>
+           <input type="submit" value="Add Album">
+        </form>
+        
+        <form id="delete-album">
+          <h3>Delete Album</h3>
+          <div>
+            <label for="albumId">Album Id:</label>
+            <input id="albumId" name="albumId">
+          </div>
+           <input type="submit" value="Delete Album">
+        </form>
+
+        <form id="add-freet-to-album">
+          <h3>Add Freet to Album</h3>
+          <div>
+            <label for="albumId">Album Id:</label>
+            <input id="albumId" name="albumId">
+          </div>
+          <div>
+            <label for="freetId">Freet Id:</label>
+            <input id="freetId" name="freetId">
+          </div>
+          <input type="submit" value="Add Freet to Album">
+        </form>
+
+        <form id="delete-freet-from-album">
+          <h3>Delete Freet from Album</h3>
+          <div>
+            <label for="albumId">Album Id:</label>
+            <input id="albumId" name="albumId">
+          </div>
+          <div>
+            <label for="freetId">Freet Id:</label>
+            <input id="freetId" name="freetId">
+          </div>
+          <input type="submit" value="Delete Freet from Album">
+        </form>
+
+        <form id="add-circle-to-album">
+          <h3>Add Circle to Album</h3>
+          <div>
+            <label for="albumId">Album Id:</label>
+            <input id="albumId" name="albumId">
+          </div>
+          <div>
+            <label for="circleName">Circle Name:</label>
+            <input id="circleName" name="circleName">
+          </div>
+          <input type="submit" value="Add Circle to Album">
+        </form>
+
+        <form id="delete-circle-from-album">
+          <h3>Delete Circle from Album</h3>
+          <div>
+            <label for="albumId">Album Id:</label>
+            <input id="albumId" name="albumId">
+          </div>
+          <div>
+            <label for="circleId">Circle Id:</label>
+            <input id="circleId" name="circleId">
+          </div>
+          <input type="submit" value="Delete Circle from Album">
+        </form>
+
+        <form id="view-all-circles-in-album">
+          <h3>View All Circles in an Album</h3>
+          <div>
+            <label for="albumId">Album Id:</label>
+            <input id="albumId" name="albumId">
+          </div>
+          <input type="submit" value="View All Users in an Album">
+        </form>
+
+        <form id="view-all-freets-in-album">
+          <h3>View All Freets in an Album</h3>
+          <div>
+            <label for="albumId">Album Id:</label>
+            <input id="albumId" name="albumId">
+          </div>
+          <input type="submit" value="View All Users in an Album">
+        </form>
+
+        <form id="view-all-albums-of-user">
+          <h3>View All Albums of User</h3>
+          <input type="submit" value="View All Albums of User">
         </form>
 
       </div>
