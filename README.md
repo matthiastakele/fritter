@@ -1,10 +1,10 @@
 # Fritter
 
-Build your own not-quite-[Twitter](https://twitter.com/)!
+Build my own not-quite-[Twitter](https://twitter.com/)!
 
 ## Starter Code
 
-  This starter code implements users (with login/sessions), and freets so that you may focus on implementing your own design ideas.
+  This starter code implements users (with login/sessions), and freets.
 
 The project is structured as follows:
 
